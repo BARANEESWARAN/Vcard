@@ -61,7 +61,7 @@ const Vcard = () => {
 
   return (
     <div className="qr-code-generator">
-      <h2>Contact Information</h2>
+      <h2>Vcard QrCode Generator</h2>
       <div className="content-container">
         <div className="input-container">
           {/* Form Inputs */}

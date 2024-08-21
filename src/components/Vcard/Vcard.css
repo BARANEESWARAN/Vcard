@@ -88,11 +88,11 @@ input {
   .qr-code-generator {
     padding: 20px;
     margin: 20px auto;
-    width: 50%;
+    width: 90%;
   }
 
   .input-field {
-    width: calc(100% - 10px);
+    width: calc(160% - 10px);
     padding: 8px;
     font-size: 14px;
   }
@@ -100,5 +100,11 @@ input {
   .download-button {
     width: 100%;
     text-align: center;
+  }
+  .content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
   }
 }
