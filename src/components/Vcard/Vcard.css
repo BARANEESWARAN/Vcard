@@ -34,9 +34,18 @@ body {
   flex: 1;
   margin-right: 20px;
 }
+
+.qr-code-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
 input {
   outline: none;
 }
+
 .input-group {
   margin-bottom: 15px;
 }
@@ -79,7 +88,7 @@ input {
   .qr-code-generator {
     padding: 20px;
     margin: 20px auto;
-  width: 93%;
+    width: 50%;
   }
 
   .input-field {
