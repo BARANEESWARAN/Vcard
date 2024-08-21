@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import vCardsJS from "vcards-js";
+import QRCode from "qrcode";
 import "./Vcard.css"; // Your CSS file
 
 const Vcard = () => {
@@ -11,6 +12,8 @@ const Vcard = () => {
     jobTitle: "",
     website: "",
   });
+
+  const [qrCode, setQrCode] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,26 +34,37 @@ const Vcard = () => {
     return vCard.getFormattedString();
   };
 
-  const handleDownloadVCard = () => {
+  const generateQRCode = async () => {
     const vCardData = generateVCard();
-    const blob = new Blob([vCardData], { type: "text/vcard" });
+    try {
+      const qr = await QRCode.toDataURL(vCardData);
+      setQrCode(qr);
+    } catch (err) {
+      console.error("QR code generation failed", err);
+    }
+  };
+
+  const handleDownloadQRCode = () => {
     const downloadLink = document.createElement("a");
-    downloadLink.href = URL.createObjectURL(blob);
-    downloadLink.download = "contact.vcf";
+    downloadLink.href = qrCode;
+    downloadLink.download = "contact-qr-code.png";
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
   };
 
-  const isContactFilled = Object.values(contact).some(
-    (value) => value.trim() !== ""
-  );
+  useEffect(() => {
+    if (Object.values(contact).some((value) => value.trim() !== "")) {
+      generateQRCode();
+    }
+  }, [contact]);
 
   return (
     <div className="qr-code-generator">
       <h2>Contact Information</h2>
       <div className="content-container">
         <div className="input-container">
+          {/* Form Inputs */}
           <div className="input-group">
             <label htmlFor="firstName" className="input-label">
               First Name
@@ -129,13 +143,17 @@ const Vcard = () => {
               className="input-field"
             />
           </div>
-
-          {isContactFilled && (
-            <button onClick={handleDownloadVCard} className="download-button">
-              Download vCard
-            </button>
-          )}
         </div>
+
+        {/* Display the Generated QR Code */}
+        {qrCode && (
+          <div className="qr-code-display">
+            <img src={qrCode} alt="Generated QR Code" />
+            <button onClick={handleDownloadQRCode} className="download-button">
+              Download QR Code
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
